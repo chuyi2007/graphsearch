@@ -97,22 +97,22 @@ public class DijkstraSearch {
 			}
 			if(cur.x + 1 < m && !used[cur.x + 1][cur.y] && map[cur.x + 1][cur.y] != '*'){
 				//++nextCount;
-				q.offer(new ScorePair(cur.x + 1, cur.y, cur, map[cur.x + 1][cur.y] - 48));
+				q.offer(new ScorePair(cur.x + 1, cur.y, cur, map[cur.x + 1][cur.y] - 48 + cur.val));
 			}
 			
 			if(cur.x - 1 >= 0 && !used[cur.x - 1][cur.y] && map[cur.x - 1][cur.y] != '*'){
 				//++nextCount;
-				q.offer(new ScorePair(cur.x - 1, cur.y, cur, map[cur.x - 1][cur.y] - 48));
+				q.offer(new ScorePair(cur.x - 1, cur.y, cur, map[cur.x - 1][cur.y] - 48 + cur.val));
 			}
 			
 			if(cur.y + 1 < n && !used[cur.x][cur.y + 1] && map[cur.x][cur.y + 1] != '*'){
 				//++nextCount;
-				q.offer(new ScorePair(cur.x, cur.y + 1, cur, map[cur.x][cur.y + 1] - 48));
+				q.offer(new ScorePair(cur.x, cur.y + 1, cur, map[cur.x][cur.y + 1] - 48 + cur.val));
 			}
 			
 			if(cur.y - 1 >= 0 && !used[cur.x][cur.y - 1] && map[cur.x][cur.y - 1] != '*'){
 				//++nextCount;
-				q.offer(new ScorePair(cur.x, cur.y - 1, cur, map[cur.x][cur.y - 1] - 48));
+				q.offer(new ScorePair(cur.x, cur.y - 1, cur, map[cur.x][cur.y - 1] - 48 + cur.val));
 			}
 			//if(curCount == 0){
 			//	curCount = nextCount;
