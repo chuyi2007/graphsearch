@@ -11,15 +11,18 @@ public class BSTCollection {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] val = {10, 20, 30, 40, 50};
-		AVLTree avl = new AVLTree(5);
+		int[] val = {10, 20, 5, 4, 40, 50};
+		BinaryTree avl = new BinaryTree(35);
 		try {
 			for (int i : val)
-				avl = (AVLTree) AVLTree.insert(avl, i);
+				avl = avl.insert(i);
 		} catch (BSTInsertException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		print(avl);
+		System.out.println("#####");
+		avl = avl.delete(35);
 		print(avl);
 	}
 	
@@ -40,18 +43,18 @@ class BinaryTree<V extends Number> {
 	public BinaryTree(V v) {
 		this.v = v;
 	}
-	BinaryTree<V> insert(BinaryTree<V> node) throws BSTInsertException {
-		if (this.v.doubleValue() > node.v.doubleValue()) {
+	BinaryTree<V> insert(V v) throws BSTInsertException {
+		if (this.v.doubleValue() > v.doubleValue()) {
 			if (this.left == null)
-				this.left = node;
+				this.left = new BinaryTree(v);
 			else
-				this.left = this.left.insert(node);
+				this.left = this.left.insert(v);
 		}
-		else if (this.v.doubleValue() < node.v.doubleValue()){
+		else if (this.v.doubleValue() < v.doubleValue()){
 			if (this.right == null)
-				this.right = node;
+				this.right = new BinaryTree(v);
 			else
-				this.right = this.right.insert(node);
+				this.right = this.right.insert(v);
 		}
 		else {
 			throw new BSTInsertException();
@@ -59,20 +62,58 @@ class BinaryTree<V extends Number> {
 		return this;
 	}
 	
-	static <V extends Number> void delete(BinaryTree node, V key) {
-		if (node.v.equals(key)) {
-			if (node.left == null && node.right == null) {
+	BinaryTree findMax() {
+		if (this.left == null && this.right == null) {
+			return this;
+		}
+		else if (this.right == null) {
+			return this;
+		}
+		else {
+			return this.right.findMax();
+		}
+	}
+	
+	BinaryTree delete(V key) {
+		if (this.v.equals(key)) {
+			if (this.left == null && this.right == null) {
+				return null;
 			}
-			else if (node.left == null) {
-				
+			else if (this.left == null) {
+				return this.right;
 			}
-			else if (node.right == null) {
-				
+			else if (this.right == null) {
+				return this.left;
 			}
 			else {
-				
+				BinaryTree node = this.left.findMax();
+				this.v = (V) node.v;
+				this.left = this.left.delete((V) node.v);
+			}
+
+		}
+		else if (this.v.doubleValue() < key.doubleValue()) {
+			if (this.right != null) {
+				this.right = this.right.delete(key);
 			}
 		}
+		else if (this.v.doubleValue() > key.doubleValue()) {
+			if (this.left != null) {
+				this.left = this.left.delete(key);
+			}
+		}
+		return this;
+	}
+	
+	void leftRotation() {
+		
+	}
+	
+	int getHeight(BinaryTree node) {
+		if (node == null) {
+			return 0;
+		}
+		return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 	}
 }
 
